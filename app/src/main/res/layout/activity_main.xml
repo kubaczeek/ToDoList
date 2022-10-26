@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -19,13 +20,15 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:inputType="textCapSentences"
+            android:windowSoftInputMode="adjustPan"
             tools:ignore="Suspicious0dp"></EditText>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="addItemToList"
-            android:text="Add" />
+            android:text="Add"
+            android:textAllCaps="true" />
 
     </LinearLayout>
 
@@ -33,12 +36,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/id_bottom_section"
-        android:background="#eee">
+        android:background="@drawable/background">
 
         <ListView
             android:id="@+id/id_list_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/background"
+            android:textAllCaps="true">
 
         </ListView>
     </LinearLayout>

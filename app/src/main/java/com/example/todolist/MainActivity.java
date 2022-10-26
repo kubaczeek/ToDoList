@@ -1,15 +1,20 @@
 package com.example.todolist;
 
+import static com.example.todolist.R.menu.menu_main;
+
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,17 +42,61 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            View parentLayout = findViewById(android.R.id.content);
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Snackbar snackbar = Snackbar
+                        .make(parentLayout, "Do you want delete:\"" + toDoList.get(i) + "\"?", Snackbar.LENGTH_LONG * 5)
+                        .setAction("YES", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(MainActivity.this, "Item \"" + toDoList.get(i) + "\" has been deleted!",
+                                        Toast.LENGTH_LONG).show();
+                                arrayAdapter.remove(toDoList.get(i));
+                                arrayAdapter.notifyDataSetChanged();
+                            }
+                        });
+                snackbar.show();
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long arg3) {
                 TextView textView = (TextView) view;
                 if (textView.getText().toString().equalsIgnoreCase("Feed shrimps!")) {
                     displayVideo();
                 }
-                textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                return false;
             }
         });
 
         editText = findViewById(R.id.id_edit_text);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        View parentLayout = findViewById(android.R.id.content);
+        if (id == R.id.idOptionMenu1) {
+            showSnackbar(parentLayout, "Type data in input and click ADD button!");
+            return true;
+        } else if (id == R.id.idOptionMenu2) {
+            showSnackbar(parentLayout, "Click on item, which You want to delete!");
+            return true;
+        } else if (id == R.id.idOptionMenu3) {
+            Intent intent = new Intent(MainActivity.this, Logs.class);
+            this.startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void displayVideo() {
@@ -59,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadDataToList(List<String> toDoList) {
-        toDoList.add("Do some exercise!");
-        toDoList.add("Do some courses!");
-        toDoList.add("Feed shrimps!");
+        toDoList.add("DO SOME EXERCISE");
+        toDoList.add("DO SOME COURSES!");
+        toDoList.add("FEED SHRIMPS!");
     }
 
     public void addItemToList(View view) {
@@ -72,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             toDoList.add(editText.getText().toString());
             showSnackbar(parentLayout, editText.getText().toString() + " has been added to list!");
             arrayAdapter.notifyDataSetChanged();
-
 
             editText.setText("");
         }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/idOptionMenu1"
+        android:title="Add" />
+
+    <item
+        android:id="@+id/idOptionMenu2"
+        android:title="Delete">
+    </item>
+
+    <item
+        android:id="@+id/idOptionMenu3"
+        android:title="Logs">
+    </item>
+
+</menu>
